@@ -1,0 +1,23 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GraphQLProject.DataAccess.Entity
+{
+    public class Teacher
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int TeacherId { get; set; }
+        [Required]
+        public string? Name {  get; set; }
+        [Required]
+        public string? SurName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string? Specialty { get; set; }
+        [Required]
+        public string? Phone { get; set; }
+        public ICollection<Services> Serviceses { get; set; }
+    }
+}
