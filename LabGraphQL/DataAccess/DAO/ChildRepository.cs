@@ -23,6 +23,7 @@ namespace GraphQLProject.DataAccess.DAO
         public List<Child> GetChildWithParent()
         {
             return _context.Child.Include(e => e.Parent).ToList();
+
         }
         public async Task<Child> CreateEmployee(Child chil)
         {
