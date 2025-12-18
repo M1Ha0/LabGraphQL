@@ -10,21 +10,21 @@ namespace GraphQLProject.DataAccess.DAO
         {
             _context = context;
         }
-        public List<Services> GetServiceses()
+        public List<Service> GetServiceses()
         {
             return _context.Services.ToList();
         }
-        public Services GetServicesById(int id)
+        public Service GetServicesById(int id)
         {
-            var services = _context.Services.Include(e=>e.Payments).Where(e=>e.ServicesId == id). FirstOrDefault();
+            var services = _context.Services.Include(e=>e.Payments).Where(e=>e.ServiceId == id). FirstOrDefault();
             if(services != null) return services;
             return null!;
         }
-        public List<Services> GetServicesWithPayments()
+        public decimal GetTotalCost()
         {
-            return _context.Services.Include(e => e.Payments).ToList();
+            return _context.Services.Sum(p => p.Price);
         }
-        public async Task<Services> CreateEmployee(Services servic)
+        public async Task<Service> CreateServices(Service servic)
         {
             await _context.Services.AddAsync(servic);
             await _context.SaveChangesAsync();

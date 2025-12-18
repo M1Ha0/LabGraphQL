@@ -15,7 +15,7 @@ namespace GraphQLProject.DataAccess.Entity
         public int ParentId { get; set; }
         public Parent Parent { get; set; }
         public int ServicesId { get; set; }
-        public Services Services { get; set; }
+        public Service Services { get; set; }
 
     }
 }

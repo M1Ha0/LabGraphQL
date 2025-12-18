@@ -18,7 +18,7 @@ namespace GraphQLProject.DataAccess.DAO
         {
             return _context.Parents.Include(d=>d.Childs).ToList();
         }
-        public async Task<Parent> CreateDepartment(Parent parent)
+        public async Task<Parent> CreateParent(Parent parent)
         {
             await _context.Parents.AddAsync(parent);
             await _context.SaveChangesAsync();

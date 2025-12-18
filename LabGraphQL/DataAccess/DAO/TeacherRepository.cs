@@ -10,15 +10,17 @@ namespace GraphQLProject.DataAccess.DAO
         {
             _context = context;
         }
-        public List<Teacher> GetAllTeacherOnly()
+        public List<Teacher> GetAllTeacher()
         {
             return _context.Teachers.ToList();
         }
-        public List<Teacher> GetAllTeacherWithServices()
+        public Teacher GetTeacherById(int id)
         {
-            return _context.Teachers.Include(d => d.Serviceses).ToList();
+            var teacher = _context.Teachers.Where(e => e.TeacherId == id).FirstOrDefault();
+            if (teacher != null) return teacher;
+            return null!;
         }
-        public async Task<Teacher> CreateDepartment(Teacher teacher)
+        public async Task<Teacher> CreateTeacher(Teacher teacher)
         {
             await _context.Teachers.AddAsync(teacher);
             await _context.SaveChangesAsync();

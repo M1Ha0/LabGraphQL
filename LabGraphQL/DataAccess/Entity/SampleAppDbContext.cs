@@ -9,8 +9,8 @@ namespace GraphQLProject.DataAccess.Entity
             Database.EnsureCreated();
         }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Child> Child { get; set; }
-        public DbSet<Services> Services { get; set; }
+        public DbSet<Child> Children { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Parent> Parents { get; set; }
     }

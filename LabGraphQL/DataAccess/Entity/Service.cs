@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphQLProject.DataAccess.Entity
 {
-    public class Services
+    public class Service
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ServicesId { get; set; }
+        public int ServiceId { get; set; }
         [Required]
-        public string? ServicesName {  get; set; }
+        public string? ServiceName {  get; set; }
         [Required]
         public decimal Price { get; set; }
         public int TeacherId { get; set; }

@@ -12,22 +12,17 @@ namespace GraphQLProject.DataAccess.DAO
         }
         public List<Child> GetChild()
         {
-            return _context.Child.ToList();
+            return _context.Children.ToList();
         }
         public Child GetChildById(int id)
         {
-            var child = _context.Child.Include(e=>e.Parent).Where(e=>e.ChildId == id). FirstOrDefault();
+            var child = _context.Children.Include(e=>e.Parent).Where(e=>e.ChildId == id). FirstOrDefault();
             if(child != null) return child;
             return null!;
         }
-        public List<Child> GetChildWithParent()
+        public async Task<Child> CreateChild(Child chil)
         {
-            return _context.Child.Include(e => e.Parent).ToList();
-
-        }
-        public async Task<Child> CreateEmployee(Child chil)
-        {
-            await _context.Child.AddAsync(chil);
+            await _context.Children.AddAsync(chil);
             await _context.SaveChangesAsync();
             return chil;
         }

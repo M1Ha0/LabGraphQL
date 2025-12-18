@@ -18,6 +18,6 @@ namespace GraphQLProject.DataAccess.Entity
         public string? Specialty { get; set; }
         [Required]
         public string? Phone { get; set; }
-        public ICollection<Services> Serviceses { get; set; }
+        public ICollection<Service> Services { get; set; }
     }
 }
