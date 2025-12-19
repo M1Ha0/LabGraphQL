@@ -13,8 +13,6 @@ namespace GraphQLProject.DataAccess.Entity
         [Required]
         public string? SurName { get; set; }
         [Required]
-        public string LastName { get; set; }
-        [Required]
         public string?  Phone { get; set; }
         public ICollection<Child> Childs { get; set; }
         public ICollection<Payment> Payments { get; set; }

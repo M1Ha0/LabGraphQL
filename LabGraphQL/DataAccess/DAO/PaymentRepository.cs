@@ -29,9 +29,24 @@ namespace GraphQLProject.DataAccess.DAO
                         select child;
             return query.ToList();
         }
-        public List<Payment> GetPaymentsChild()
+        public List<Payment> GetPaymentsChild(int parentId)
         {
+            return _context.Payments.Include(p=>p.Services).Where(p=>p.ParentId== parentId).ToList();
+        }
+        public decimal GetChildDebt(int childId)
+        {
+ 
+            var servicesCost = _context.Payments
+                .Include(p => p.Services)
+                .Where(p => p.Parent.Childs.Any(c => c.ChildId == childId))
+                .Select(p => p.Services.Price)
+                .Sum();
+          
+            var paid = _context.Payments
+                .Where(p => p.Parent.Childs.Any(c => c.ChildId == childId))
+                .Sum(p => p.Amount);
 
+            return servicesCost - paid;
         }
         public List<Payment> GetPaymentWithServices()
         {

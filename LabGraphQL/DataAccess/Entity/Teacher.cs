@@ -13,10 +13,6 @@ namespace GraphQLProject.DataAccess.Entity
         [Required]
         public string? SurName { get; set; }
         [Required]
-        public string LastName { get; set; }
-        [Required]
-        public string? Specialty { get; set; }
-        [Required]
         public string? Phone { get; set; }
         public ICollection<Service> Services { get; set; }
     }

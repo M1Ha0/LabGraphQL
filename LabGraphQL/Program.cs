@@ -1,3 +1,7 @@
+using HotChocolate.Execution;
+using HotChocolate.Subscriptions;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
