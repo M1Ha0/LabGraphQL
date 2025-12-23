@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GraphQLProject.DataAccess.Entity
+namespace LabGraphQL.DataAccess.Entity
 {
     public class SampleAppDbContext : DbContext
     {

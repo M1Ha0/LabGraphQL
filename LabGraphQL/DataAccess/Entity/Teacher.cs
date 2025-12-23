@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GraphQLProject.DataAccess.Entity
+namespace LabGraphQL.DataAccess.Entity
 {
     public class Teacher
     {

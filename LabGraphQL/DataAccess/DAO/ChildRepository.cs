@@ -1,7 +1,7 @@
-﻿using GraphQLProject.DataAccess.Entity;
+﻿using LabGraphQL.DataAccess.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GraphQLProject.DataAccess.DAO
+namespace LabGraphQL.DataAccess.DAO
 {
     public class ChildRepository
     {
@@ -25,6 +25,28 @@ namespace GraphQLProject.DataAccess.DAO
             await _context.Children.AddAsync(chil);
             await _context.SaveChangesAsync();
             return chil;
+        }
+        public async Task<Child> EditChild(Child child)
+        {
+            try
+            {
+                var childToUpdate = GetChildById(child.ChildId);
+                if (childToUpdate == null) return null!;
+                childToUpdate.Name = child.Name;
+                childToUpdate.BirhDate = child.BirhDate;
+                childToUpdate.ParentId = child.ParentId;
+                await _context.SaveChangesAsync();
+                return childToUpdate;
+            }
+            catch (Exception) { throw; }
+        }
+        public async Task<Child> DeleteChild(int id)
+        {
+            var childDel = await _context.Children.FindAsync(id);
+            if (childDel == null) return null!;
+            _context.Children.Remove(childDel);
+            await _context.SaveChangesAsync();
+            return childDel;
         }
     }
 }

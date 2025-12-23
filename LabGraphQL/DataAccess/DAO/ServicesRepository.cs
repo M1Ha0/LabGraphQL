@@ -1,7 +1,7 @@
-﻿using GraphQLProject.DataAccess.Entity;
+﻿using LabGraphQL.DataAccess.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GraphQLProject.DataAccess.DAO
+namespace LabGraphQL.DataAccess.DAO
 {
     public class ServicesRepository
     {
