@@ -14,9 +14,10 @@ namespace LabGraphQL.DataAccess.DAO
         {
             return _context.Children.ToList();
         }
+        //сформировать личную карточку ребенка;
         public Child GetChildById(int id)
         {
-            var child = _context.Children.Include(e=>e.Parent).Where(e=>e.ChildId == id). FirstOrDefault();
+            var child = _context.Children.Where(e=>e.ChildId == id). FirstOrDefault();
             if(child != null) return child;
             return null!;
         }

@@ -10,10 +10,12 @@ namespace LabGraphQL.DataAccess.DAO
         {
             _context = context;
         }
+        //вывести справку обо всех преподавателях;
         public List<Teacher> GetAllTeacher()
         {
             return _context.Teachers.ToList();
         }
+        //сформировать личную карточку преподавателя;
         public Teacher GetTeacherById(int id)
         {
             var teacher = _context.Teachers.Where(e => e.TeacherId == id).FirstOrDefault();

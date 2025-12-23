@@ -1,0 +1,53 @@
+﻿@page "/ChildView"
+@using BlazorBootstrap
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccsess.Model
+@using System.ComponentModel.DataAnnotations
+@using System.Drawing
+
+
+@inject NavigationManager NavigationManager
+
+<h3>Список детей</h3>
+@if (AllChildren.Count == 0)
+{
+    <p><em>Loading ....</em></p>
+}
+
+else
+{
+    <Grid TItem="Child"
+          Class="table table-hover table-bordered table-striped"
+          DataProvider="ChildrdenDataProvider"
+          AllowPaging="true"
+          AllowFiltering="true"
+          AllowSorting="true"
+          AutoHidePaging="true"
+          PageSize="10"
+          PageSizeSelectorVisible="true"
+          PageSizeSelectorItems="@(new int[] { 5,10,20 })"
+          Responsive="true">
+        <GridColumns>
+            <GridColumn TItem="Child" HeaderText="Имя работника" PropertyName="Name" SortKeySelector="item => item.Name">
+                @context.Name
+            </GridColumn>
+            <GridColumn TItem="Child" HeaderText="Возраст работника" PropertyName="Age" SortKeySelector="item => item.Age" TextAlignment="Alignment.Center">
+                @context.BirhDate
+            </GridColumn>
+            <GridColumn TItem="Child" HeaderText="Подразделение работника" PropertyName="ParentName" SortKeySelector="item => item.Parent!.Name">
+                @context.Parent!.Name
+            </GridColumn>
+            <GridColumn TItem="Child" HeaderText="Редактирование" PropertyName="EmployeeId" Filterable=false TextAlignment="Alignment.Center">
+                <a href="/EditChild/@context.ChildId"><img src="images/edit.png" class="imgEmployer" /></a>
+            </GridColumn>
+            <GridColumn TItem="Child" HeaderText="Удаление" PropertyName="EmployeeId" Filterable=false TextAlignment="Alignment.Center">
+                <a href="/DeleteChild/@context.ChildId"><img src="images/delete.png" class="imgEmployer" /></a>
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+    <a href="/CreateChild" class="btn btn-primary">Создать работника</a>
+}
+
+@code {
+
+}

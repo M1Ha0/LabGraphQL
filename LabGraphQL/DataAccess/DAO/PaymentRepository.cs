@@ -20,6 +20,7 @@ namespace LabGraphQL.DataAccess.DAO
             if(payment != null) return payment;
             return null!;
         }
+        //вывести список детей, потребляющих заданную услугу;
         public List<Child> GetParentsByIdServices(int id)
         {
             var query = from child in _context.Children
@@ -29,10 +30,7 @@ namespace LabGraphQL.DataAccess.DAO
                         select child;
             return query.ToList();
         }
-        public List<Payment> GetPaymentsChild(int parentId)
-        {
-            return _context.Payments.Include(p=>p.Services).Where(p=>p.ParentId== parentId).ToList();
-        }
+        //для ребенка вывести все выполненные платежи;
         public decimal GetChildDebt(int childId)
         {
  
@@ -45,12 +43,13 @@ namespace LabGraphQL.DataAccess.DAO
             var paid = _context.Payments
                 .Where(p => p.Parent.Childs.Any(c => c.ChildId == childId))
                 .Sum(p => p.Amount);
-
-            return servicesCost - paid;
+            decimal childDebt = servicesCost - paid;
+            return childDebt;
         }
-        public List<Payment> GetPaymentWithServices()
+        //для ребенка вывести все задолженности по платежам;
+        public decimal GetTotalAmountById(int id)
         {
-            return _context.Payments.Include(e => e.Services).ToList();
+            return _context.Payments.Where(p => p.ParentId == id).Sum(p => p.Amount);
         }
         public async Task<Payment> CreatePayment(Payment paym)
         {

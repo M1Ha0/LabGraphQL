@@ -31,7 +31,7 @@ namespace LabGraphQL.DataAccess.Data
                 {
                     var service = new Service
                     {
-                        ServiceName = Lorem.Sentence(),
+                        ServiceName = Lorem.Sentence(3),
                         Price = random.Next(1000, 5000),
                         Teacher = teacher
                     };

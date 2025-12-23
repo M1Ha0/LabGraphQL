@@ -14,9 +14,11 @@ namespace LabGraphQL.DataAccess.DAO
         {
             return _context.Parents.ToList();
         }
-        public List<Parent> GetAllParentWithChild()
+        public Parent GetParentById(int id)
         {
-            return _context.Parents.Include(d=>d.Childs).ToList();
+            var parent = _context.Parents.Where(e => e.ParentId == id).FirstOrDefault();
+            if (parent != null) return parent;
+            return null!;
         }
         public async Task<Parent> CreateParent(Parent parent)
         {

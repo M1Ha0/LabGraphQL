@@ -10,7 +10,8 @@ namespace LabGraphQL.DataAccess.DAO
         {
             _context = context;
         }
-        public List<Service> GetServiceses()
+        //выдать информацию обо всех услугах детского сада;
+        public List<Service> GetServices()
         {
             return _context.Services.ToList();
         }
@@ -20,10 +21,12 @@ namespace LabGraphQL.DataAccess.DAO
             if(services != null) return services;
             return null!;
         }
+        //рассчитать общую стоимость предоставленных услуг;
         public decimal GetTotalCost()
         {
             return _context.Services.Sum(p => p.Price);
         }
+        //рассчитать общую стоимость по заданной услуге.
         public decimal GetTotalCostById(int id)
         {
             return _context.Services.Where(p=>p.ServiceId == id).Sum(p => p.Price);
