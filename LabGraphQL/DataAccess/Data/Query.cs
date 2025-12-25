@@ -8,6 +8,7 @@ namespace LabGraphQL.DataAccess.Data
     {
         public List<Parent> AllParentOnly([Service] ParentRepository parentRepository) => parentRepository.GetAllParentOnly();
         public List<Child> AllChildOnly([Service] ChildRepository childRepository) => childRepository.GetChild();
+        public List<Child> AllChildWithParent([Service] ChildRepository childRepository) => childRepository.GetChildWithParent();
         //сформировать личную карточку ребенка;
         public async Task<Child> GetChildById([Service] ChildRepository childRepository, [Service] ITopicEventSender eventSender, int id)
         {

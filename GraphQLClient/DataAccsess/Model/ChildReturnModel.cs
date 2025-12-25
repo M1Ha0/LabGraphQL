@@ -6,5 +6,6 @@
         public string? Name { get; set; }
         public DateOnly BirhDate { get; set; }
         public int ParentId { get; set; }
+       public Parent Parent { get; set; }
     }
 }

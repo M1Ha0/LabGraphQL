@@ -1,0 +1,72 @@
+﻿@page "/CreateChild"
+@using BlazorBootstrap
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+
+@inject NavigationManager NavigationManager
+<h3>Добовление Ребенка</h3>
+<div class="row">
+    <EditForm Model="@createChild" OnValidSubmit="@CreateButtonClick">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            Имя:<InputText id="name" @bind-Value="createChild.Name"
+                           class="form-control" />
+        </div>
+        <div class="form-group">
+            BirhDate:<InputText id="birhDate" @bind-Value="createChild.BirhDate"
+                             class="form-control" />
+        </div>
+        <div class="form-group">
+            Родитель:<InputSelect TValue="int" @bind-Value="createChild.ParentId"
+                                       class="form-control">
+                @foreach (var par in parentList!)
+                {
+                    <option value="@dept.ParentId">@dept.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-success">Создать</button>
+    </EditForm>
+</div>
+<a href="/ChildView"><i class="bi bi-backspace"></i></a>
+@code
+{
+    private ChildReturnModel cildReturnModel =
+    new ChildReturnModel();
+    private CreateChildModel createChild =
+    new CreateChildModel();
+    private IEnumerable<ParentReturnModel>? parentList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        parentList = await GetParents();
+    }
+    private async Task CreateButtonClick()
+    {
+        try
+        {
+            string query = "mutation{createWithDepartmentId(age:" + createEmployee.Age + ",mail: \"" + createEmployee.Email + "\",name: \"" + createEmployee.Name + "\",depId:" + createEmployee.DepartmentId + "){name,employeeId,departmentId}}";
+            string graphQLQueryType = "createWithDepartmentId";
+            var result = await Mutation.ExceuteMutationAsyn<CreateEmployeeReturnModel>(graphQLQueryType, query);
+            NavigationManager.NavigateTo($"EmployeeView");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private async Task<IEnumerable<DepartmentReturnModel>> GetDepartments()
+    {
+        try
+        {
+            string query = "query{allDepartmentOnly{departmentId,name}}";
+            string graphQLQueryType = "allDepartmentOnly";
+            return await Query.ExceuteQueryReturnListAsyn<DepartmentReturnModel>(graphQLQueryType, query);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}

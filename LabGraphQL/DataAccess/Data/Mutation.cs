@@ -25,6 +25,17 @@ namespace LabGraphQL.DataAccess.Data
             return createChild;
         }
 
+        public async Task<Child> CreateWithParentName([Service] ChildRepository childRepository, [Service] ITopicEventSender eventSender, string childName, DateOnly birhDate, string parentName)
+        {
+            Child child = new Child
+            {
+                Name = childName,
+                BirhDate = birhDate,
+                Parent = new Parent { Name = parentName }
+            };
+            var createChild = await childRepository.CreateChild(child);
+            return createChild;
+        }
         public async Task<Child> EditChild([Service] ChildRepository childRepository, [Service] ITopicEventSender eventSender, string childName, DateOnly birhDate, int parentId)
         {
             Child child = new Child

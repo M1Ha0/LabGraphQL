@@ -9,14 +9,14 @@ namespace GraphQLClient.DataAccsess.Model
         public string? Name { get; set; }
         public DateOnly BirhDate { get; set; }
         public int ParentId { get; set; }
-        public Parent Parent { get; set; }
+        public Parent? Parent { get; set; }
         public override string ToString()
         {
             return $"ChildId: {ChildId},\n" +
                    $"Name: {Name},\n" +
                    $"BirhDate: {BirhDate},\n" +
                    $"ParentId: {ParentId},\n" +
-                   $"Parent: {Parent.ToString},\n";
+                   $"Parent: {Parent!.ToString},\n";
         }
     }
 }

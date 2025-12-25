@@ -16,7 +16,7 @@
 
 else
 {
-    <Grid TItem="Child"
+    <Grid TItem="ChildReturnModel"
           Class="table table-hover table-bordered table-striped"
           DataProvider="ChildrdenDataProvider"
           AllowPaging="true"
@@ -28,19 +28,19 @@ else
           PageSizeSelectorItems="@(new int[] { 5,10,20 })"
           Responsive="true">
         <GridColumns>
-            <GridColumn TItem="Child" HeaderText="Имя работника" PropertyName="Name" SortKeySelector="item => item.Name">
+            <GridColumn TItem="ChildReturnModel" HeaderText="Имя" PropertyName="Name" SortKeySelector="item => item.Name">
                 @context.Name
             </GridColumn>
-            <GridColumn TItem="Child" HeaderText="Возраст работника" PropertyName="Age" SortKeySelector="item => item.Age" TextAlignment="Alignment.Center">
+            <GridColumn TItem="ChildReturnModel" HeaderText="Дата рождения" PropertyName="BirhDate" SortKeySelector="item => item.BirhDate" TextAlignment="Alignment.Center">
                 @context.BirhDate
             </GridColumn>
-            <GridColumn TItem="Child" HeaderText="Подразделение работника" PropertyName="ParentName" SortKeySelector="item => item.Parent!.Name">
+            <GridColumn TItem="ChildReturnModel" HeaderText="Родитель" PropertyName="Name" SortKeySelector="item => item.Parent!.Name">
                 @context.Parent!.Name
             </GridColumn>
-            <GridColumn TItem="Child" HeaderText="Редактирование" PropertyName="EmployeeId" Filterable=false TextAlignment="Alignment.Center">
+            <GridColumn TItem="ChildReturnModel" HeaderText="Редактирование" PropertyName="ChildId" Filterable=false TextAlignment="Alignment.Center">
                 <a href="/EditChild/@context.ChildId"><img src="images/edit.png" class="imgEmployer" /></a>
             </GridColumn>
-            <GridColumn TItem="Child" HeaderText="Удаление" PropertyName="EmployeeId" Filterable=false TextAlignment="Alignment.Center">
+            <GridColumn TItem="ChildReturnModel" HeaderText="Удаление" PropertyName="ChildId" Filterable=false TextAlignment="Alignment.Center">
                 <a href="/DeleteChild/@context.ChildId"><img src="images/delete.png" class="imgEmployer" /></a>
             </GridColumn>
         </GridColumns>
@@ -49,5 +49,24 @@ else
 }
 
 @code {
+    private List<ChildReturnModel> AllChildren = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string completeQuery = "query{allChildWithParent{name,parentId, childId,birhDate,parent{name}}";
+            string qraphQLQueryType = "allChildWithParent";
+            var result = await Query.ExceuteQueryReturnListAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
+            AllChildren = result;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    private async Task<GridDataProviderResult<ChildReturnModel>> ChildrdenDataProvider(GridDataProviderRequest<ChildReturnModel> request)
+    {
+        return await Task.FromResult(request.ApplyTo(AllChildren));
+    }
 }
