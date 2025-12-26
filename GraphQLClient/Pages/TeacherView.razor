@@ -16,7 +16,7 @@
 
 else
 {
-    <Grid TItem="TeacherReturnModel"
+    <Grid TItem="Teacher"
           Class="table table-hover table-bordered table-striped"
           DataProvider="TeacherDataProvider"
           AllowPaging="true"
@@ -28,47 +28,40 @@ else
           PageSizeSelectorItems="@(new int[] { 5,10,20 })"
           Responsive="true">
         <GridColumns>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Имя" PropertyName="Name" SortKeySelector="item => item.Name">
+            <GridColumn TItem="Teacher" HeaderText="Имя" PropertyName="Name" SortKeySelector="item => item.Name">
                 @context.Name
             </GridColumn>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Фамилия" PropertyName="SurName" SortKeySelector="item => item.SurName" TextAlignment="Alignment.Center">
+            <GridColumn TItem="Teacher" HeaderText="Фамилия" PropertyName="SurName" SortKeySelector="item => item.SurName" TextAlignment="Alignment.Center">
                 @context.SurName
             </GridColumn>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Отчество" PropertyName="LastName" SortKeySelector="item => item.LastName">
-                @context.LastName
-            </GridColumn>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Телефон" PropertyName="Phone" SortKeySelector="item => item.Phone">
+            <GridColumn TItem="Teacher" HeaderText="Телефон" PropertyName="Phone" SortKeySelector="item => item.Phone">
                 @context.Phone
             </GridColumn>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Специальность" PropertyName="Specialty" SortKeySelector="item => item.Specialty">
-                @context.Specialty
-            </GridColumn>
-            <GridColumn TItem="TeacherReturnModel" HeaderText="Карточка преподавателя" PropertyName="TeacherId" Filterable=false TextAlignment="Alignment.Center">
-                <a href="/TaskOneView/@context.TeacherId"><img src="images/card.png" class="imgEmployer" /></a>
+            <GridColumn TItem="Teacher" HeaderText="Карточка преподавателя" PropertyName="TeacherId" Filterable=false TextAlignment="Alignment.Center">
+                <a href="/TaskTeachView/@context.TeacherId"><img src="images/card.png" class="imgEmployer" alt="/TaskTeachView/@context.TeacherId" /></a>
             </GridColumn>
         </GridColumns>
     </Grid>
-    <a href="/CreateChild" class="btn btn-primary">Создать ребенка</a>
 }
 
 @code {
-    private List<TeacherReturnModel> AllTeacher = new();
+    private List<Teacher> AllTeacher = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string completeQuery = "query{allTeacherOnly{name,surName, lastName, specialty,phone}";
+            string completeQuery = "query{allTeacherOnly{teacherId,name,surName,phone}}";
             string qraphQLQueryType = "allTeacherOnly";
-            var result = await Query.ExceuteQueryReturnListAsyn<TeacherReturnModel>(qraphQLQueryType, completeQuery);
+            var result = await Query.ExceuteQueryReturnListAsyn<Teacher>(qraphQLQueryType, completeQuery);
             AllTeacher = result;
         }
         catch (Exception ex)
         {
-            throw ex;
+            throw;
         }
     }
-    private async Task<GridDataProviderResult<TeacherReturnModel>> TeacherDataProvider(GridDataProviderRequest<TeacherReturnModel> request)
+    private async Task<GridDataProviderResult<Teacher>> TeacherDataProvider(GridDataProviderRequest<Teacher> request)
     {
         return await Task.FromResult(request.ApplyTo(AllTeacher));
     }

@@ -37,7 +37,7 @@ else
     private ChildReturnModel child = new ChildReturnModel();
     protected override async Task OnInitializedAsync()
     {
-        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhdate,parent{name,parentId}}}";
+        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhDate,parent{name,parentId}}}";
         string qraphQLQueryType = "childById";
         var result = await Query.ExceuteQueryAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
         if (result == null)

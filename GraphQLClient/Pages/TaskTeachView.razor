@@ -6,23 +6,15 @@
 <h3>Карточка учителя</h3>
 <div>
         <div class="form-group">
-        Имя:<InputText readonly id="name" Value="teacher.Name"
+        Имя:<InputText readonly id="name" @bind-Value="teacher.Name"
                            class="form-control" />
         </div>
         <div class="form-group">
-        Фамилия:<InputText readonly id="surName" Value="teacher.SurName"
-                             class="form-control" />
-        </div>
-         <div class="form-group">
-        Отчество:<InputText readonly id="lastName" Value="teacher.LastName"
-                             class="form-control" />
-        </div>
-         <div class="form-group">
-        Специальность:<InputText readonly id="specialty" Value="teacher.Specialty"
+        Фамилия:<InputText readonly id="surName" @bind-Value="teacher.SurName"
                              class="form-control" />
         </div>
           <div class="form-group">
-        Телефон:<InputText readonly id="phone" Value="teacher.Phone"
+        Телефон:<InputText readonly id="phone" @bind-Value="teacher.Phone"
                              class="form-control" />
         </div>
 </div>
@@ -33,8 +25,8 @@
     private TeacherReturnModel teacher = new TeacherReturnModel();
     protected override async Task OnInitializedAsync()
     {
-        string completeQuery = "query{getTeacherById(id:" + Id + "){teacherId,name,surName,lastName,specialty,phone}";
-        string qraphQLQueryType = "getTeacherById";
+        string completeQuery = "query{teacherById(id:"+Id+"){name,teacherId,surName,phone}}";
+        string qraphQLQueryType = "teacherById";
         var result = await Query.ExceuteQueryAsyn<TeacherReturnModel>(qraphQLQueryType, completeQuery);
         if (result == null)
         {

@@ -24,7 +24,7 @@
             }
         </InputSelect>
         </div>
-        <button type="submit" class="btn btn-success">Сохранить</button>
+    <button type="submit" class="btn btn-success">Сохранить</button>
     </EditForm>
 <a href="/ChildView">Назад</a>
 @code {
@@ -34,8 +34,8 @@
     private IEnumerable<ParentReturnModel>? parentList;
     protected override async Task OnInitializedAsync()
     {
-        parentList = await GetParents();
-        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhdate,parent{name,parentId}}}";
+        parentList = await GetParents(); 
+        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhDate,parent{name,parentId}}";
         string qraphQLQueryType = "childById";
         var result = await Query.ExceuteQueryAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
         if (result == null)
@@ -49,7 +49,7 @@
     {
         try
         {
-            string query = "mutation{editChild(age:" + child.Name + ",parentId:" + child.ParentId + ",childId:" + child.ChildId + ",birhDate:\"" + child.BirhDate + "\"){name,childId,parentId}}";
+            string query = "mutation{editChild(name:\"" + child.Name + "\",birhDate:\"" + child.BirhDate.ToString("yyyy-MM-dd") + "\",parentId:" + child.ParentId + "childId:" + Id + "){ name,parentId,childId}}";
             string graphQLQueryType = "editChild";
             var result = await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
             NavigationManager.NavigateTo($"ChildView");

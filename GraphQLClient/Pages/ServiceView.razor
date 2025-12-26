@@ -8,7 +8,7 @@
 
 @inject NavigationManager NavigationManager
 
-<h3>Список детей</h3>
+<h3>Список услуг</h3>
 @if (AllService.Count == 0)
 {
     <p><em>Loading ....</em></p>
@@ -52,7 +52,7 @@ else
     {
         try
         {
-            string completeQuery = "query{allServiceOnly{serviceName,price, serviceId,teacherId}";
+            string completeQuery = "query{allServiceOnly{serviceName,price, serviceId,teacherId}}";
             string qraphQLQueryType = "allServiceOnly";
             var result = await Query.ExceuteQueryReturnListAsyn<ServiceReturnModel>(qraphQLQueryType, completeQuery);
             AllService = result;

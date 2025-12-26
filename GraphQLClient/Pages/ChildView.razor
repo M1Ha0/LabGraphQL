@@ -64,7 +64,7 @@ else
     {
         try
         {
-            string completeQuery = "query{allChildWithParent{name,parentId, childId,birhDate,parent{name}}";
+            string completeQuery = "query{allChildWithParent{name,parentId, childId,birhDate,parent{name}}}";
             string qraphQLQueryType = "allChildWithParent";
             var result = await Query.ExceuteQueryReturnListAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
             AllChildren = result;

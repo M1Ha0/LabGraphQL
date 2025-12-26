@@ -1,4 +1,4 @@
-﻿@page "/TaskTwoView"
+﻿@page "/TaskTwoView/{Id:int}"
 @using BlazorBootstrap
 @using GraphQLClient.DataAccess
 @using GraphQLClient.DataAccess.Model
@@ -36,14 +36,16 @@ else
    
 }
 
-@code {
+@code {  
+    [Parameter]
+    public int? Id { get; set; }
     private List<ChildReturnModel> AllChildren = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string completeQuery = "query{getParentsByIdServices{name}";
+            string completeQuery = "query{getParentsByIdServices(id:"+Id+"){name}";
             string qraphQLQueryType = "getParentsByIdServices";
             var result = await Query.ExceuteQueryReturnListAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
             AllChildren = result;

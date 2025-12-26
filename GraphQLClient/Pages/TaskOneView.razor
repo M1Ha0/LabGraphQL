@@ -5,19 +5,19 @@
 @inject NavigationManager NavigationManager
 <h3>Карточка ребенка</h3>
 <div>
-        <div class="form-group">
-        Имя:<InputText readonly id="name" Value="child.Name"
+    <div class="form-group">
+        Имя:<InputText readonly id="name" @bind-Value="child.Name"
                            class="form-control" />
+    </div>
+    <div class="form-group">
+            Дата рождения:<input type="date" id="birhDate" readonly @bind="child.BirhDate"
+                             class="form-control"/>
         </div>
         <div class="form-group">
-        Дата рождения:<InputText readonly id="birhDate" Value="child.BirhDate"
-                             class="form-control" />
-        </div>
-        <div class="form-group">
-        Родитель:<InputText readonly Value="child.ParentId"
+        Родитель:<InputText readonly @bind-Value="child.Parent.Name"
                                    class="form-control"/>
         </div>
-    </div>
+</div>
 <a href="/ChildView">Назад</a>
 @code {
     [Parameter]
@@ -27,7 +27,7 @@
     protected override async Task OnInitializedAsync()
     {
         parentList = await GetParents();
-        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhdate,parent{name,parentId}}}";
+        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhDate,parent{name,parentId}}}";
         string qraphQLQueryType = "childById";
         var result = await Query.ExceuteQueryAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
         if (result == null)
@@ -35,7 +35,7 @@
             NavigationManager.NavigateTo($"ChildView");
         }
         child = result!;
-        child.ParentId = result!.Parent!.ParentId;
+        child.Parent.Name = result!.Parent!.Name;
     }
     private async Task<IEnumerable<ParentReturnModel>> GetParents()
     {

@@ -10,13 +10,13 @@
 
 <h3>Цена</h3>
     <div class="form-group">
-        Общая сумма:<InputText readonly id="cost" Value="result"
+    Общая сумма:<InputDecimal readonly id="cost" @bind-Value="cost"
                            class="form-control" />
     </div>
 
 @code {
-    private decimal Cost;
 
+    private decimal cost;
     protected override async Task OnInitializedAsync()
     {
         try
@@ -24,13 +24,15 @@
             string completeQuery = "query{totalCost}";
             string qraphQLQueryType = "totalCost";
             var result = await Query.ExceuteQueryAsyn<decimal>(completeQuery, qraphQLQueryType);
-            Cost = result;
+            cost = result;
+            
         }
         catch (Exception ex)
         {
             throw ex;
         }
     }
+    
     private async Task<decimal> AllTotalCost(decimal request)
     {
         return await Task.FromResult(request);

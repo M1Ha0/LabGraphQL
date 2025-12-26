@@ -67,7 +67,7 @@ namespace GraphQLClient.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw ;
             }
         }
     }

@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             Дата рождения:<DateInput id="birhDate" @bind-Value="createChild.BirhDate"
-                             class="form-control" />
+                             class="form-control"/>
         </div>
         <div class="form-group">
             Родитель:<InputSelect TValue="int" @bind-Value="createChild.ParentId"
@@ -31,7 +31,7 @@
 <a href="/ChildView"><i class="bi bi-backspace"></i></a>
 @code
 {
-    private ChildReturnModel cildReturnModel =
+    private ChildReturnModel childReturnModel =
     new ChildReturnModel();
     private CreateChildModel createChild =
     new CreateChildModel();
@@ -45,9 +45,9 @@
     {
         try
         {
-            string query = "mutation{createWithParentName(name:" + createChild.Name + ",birhDate: \"" + createChild.BirhDate + "\",parentId:" + createChild.ParentId + "){name,parentId}}";
+            string query = "mutation{createWithParentName(name:\"" + createChild.Name + "\",birhDate:\"" + createChild.BirhDate.ToString("yyyy-MM-dd") + "\",parentId:" + createChild.ParentId + "){name,parentId,childId}}";
             string graphQLQueryType = "createWithParentName";
-            var result = await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
+            await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
             NavigationManager.NavigateTo($"ChildView");
         }
         catch (Exception)
