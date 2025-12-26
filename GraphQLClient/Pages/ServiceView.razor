@@ -1,0 +1,70 @@
+﻿@page "/ServiceView"
+@using BlazorBootstrap
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+@using System.ComponentModel.DataAnnotations
+@using System.Drawing
+
+
+@inject NavigationManager NavigationManager
+
+<h3>Список детей</h3>
+@if (AllService.Count == 0)
+{
+    <p><em>Loading ....</em></p>
+}
+
+else
+{
+    <Grid TItem="ServiceReturnModel"
+          Class="table table-hover table-bordered table-striped"
+          DataProvider="ServiceDataProvider"
+          AllowPaging="true"
+          AllowFiltering="true"
+          AllowSorting="true"
+          AutoHidePaging="true"
+          PageSize="10"
+          PageSizeSelectorVisible="true"
+          PageSizeSelectorItems="@(new int[] { 5,10,20 })"
+          Responsive="true">
+        <GridColumns>
+            <GridColumn TItem="ServiceReturnModel" HeaderText="Название услуги" PropertyName="Name" SortKeySelector="item => item.ServiceName">
+                @context.ServiceName
+            </GridColumn>
+            <GridColumn TItem="ServiceReturnModel" HeaderText="Цена" PropertyName="Price" SortKeySelector="item => item.Price" TextAlignment="Alignment.Center">
+                @context.Price
+            </GridColumn>
+            <GridColumn TItem="ServiceReturnModel" HeaderText="TeacherId" PropertyName="TeacherId" SortKeySelector="item => item.TeacherId">
+                @context.TeacherId
+            </GridColumn>
+            <GridColumn TItem="ServiceReturnModel" HeaderText="Список детей, потребляющих услугу" PropertyName="ServiceId" Filterable=false TextAlignment="Alignment.Center">
+                <a href="/TaskTwoView/@context.ServiceId"><img src="images/card.png" class="imgEmployer" /></a>
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+    <a href="/PriceView" class="btn btn-primary">Стоимость всех услуг</a>
+}
+
+@code {
+    private List<ServiceReturnModel> AllService = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string completeQuery = "query{allServiceOnly{serviceName,price, serviceId,teacherId}";
+            string qraphQLQueryType = "allServiceOnly";
+            var result = await Query.ExceuteQueryReturnListAsyn<ServiceReturnModel>(qraphQLQueryType, completeQuery);
+            AllService = result;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    private async Task<GridDataProviderResult<ServiceReturnModel>> ServiceDataProvider(GridDataProviderRequest<ServiceReturnModel> request)
+    {
+        return await Task.FromResult(request.ApplyTo(AllService));
+    }
+
+}

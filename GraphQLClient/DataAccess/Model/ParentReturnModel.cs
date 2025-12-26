@@ -1,6 +1,6 @@
-﻿namespace GraphQLClient.DataAccsess.Model
+﻿namespace GraphQLClient.DataAccess.Model
 {
-    public class CreateParentReturnModel
+    public class ParentReturnModel
     {
         public int ParentId { get; set; }
         public string? Name { get; set; }

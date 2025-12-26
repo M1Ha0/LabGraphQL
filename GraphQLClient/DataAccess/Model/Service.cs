@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace GraphQLClient.DataAccsess.Model
+namespace GraphQLClient.DataAccess.Model
 {
     public class Service
     {

@@ -1,0 +1,38 @@
+﻿@page "/PriceView"
+@using BlazorBootstrap
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+@using System.ComponentModel.DataAnnotations
+@using System.Drawing
+
+
+@inject NavigationManager NavigationManager
+
+<h3>Цена</h3>
+    <div class="form-group">
+        Общая сумма:<InputText readonly id="cost" Value="result"
+                           class="form-control" />
+    </div>
+
+@code {
+    private decimal Cost;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string completeQuery = "query{totalCost}";
+            string qraphQLQueryType = "totalCost";
+            var result = await Query.ExceuteQueryAsyn<decimal>(completeQuery, qraphQLQueryType);
+            Cost = result;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    private async Task<decimal> AllTotalCost(decimal request)
+    {
+        return await Task.FromResult(request);
+    }
+}

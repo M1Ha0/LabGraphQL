@@ -1,0 +1,76 @@
+﻿@page "/EditChild/{Id:int}"
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+
+@inject NavigationManager NavigationManager
+<h3>Редактирование ребенка</h3>
+<EditForm Model="@child" OnValidSubmit="@EditButtonClick">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+        Имя:<InputText  id="name" @bind-Value="child.Name"
+                           class="form-control" />
+        </div>
+        <div class="form-group">
+        Дата рождения:<InputDate id="birhDate" @bind-Value="child.BirhDate"
+                             class="form-control" />
+        </div>
+        <div class="form-group">
+        Родитель:<InputSelect TValue="int" @bind-Value="child.ParentId"
+                                   class="form-control">
+            @foreach (var par in parentList!)
+            {
+                <option value="@par.ParentId">@par.Name</option>
+            }
+        </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </EditForm>
+<a href="/ChildView">Назад</a>
+@code {
+    [Parameter]
+    public int? Id{ get; set; }
+    private ChildReturnModel child = new ChildReturnModel();
+    private IEnumerable<ParentReturnModel>? parentList;
+    protected override async Task OnInitializedAsync()
+    {
+        parentList = await GetParents();
+        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhdate,parent{name,parentId}}}";
+        string qraphQLQueryType = "childById";
+        var result = await Query.ExceuteQueryAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
+        if (result == null)
+        {
+            NavigationManager.NavigateTo($"ChildView");
+        }
+        child = result!;
+        child.ParentId = result!.Parent!.ParentId;
+    }
+    private async Task EditButtonClick()
+    {
+        try
+        {
+            string query = "mutation{editChild(age:" + child.Name + ",parentId:" + child.ParentId + ",childId:" + child.ChildId + ",birhDate:\"" + child.BirhDate + "\"){name,childId,parentId}}";
+            string graphQLQueryType = "editChild";
+            var result = await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
+            NavigationManager.NavigateTo($"ChildView");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private async Task<IEnumerable<ParentReturnModel>> GetParents()
+    {
+        try
+        {
+            string query = "query{allParentOnly{parentId,name}}";
+            string graphQLQueryType = "allParentOnly";
+            return await Query.ExceuteQueryReturnListAsyn<ParentReturnModel>(graphQLQueryType, query);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
+}

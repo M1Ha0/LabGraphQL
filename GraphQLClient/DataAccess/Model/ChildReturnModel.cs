@@ -1,4 +1,4 @@
-﻿namespace GraphQLClient.DataAccsess.Model
+﻿namespace GraphQLClient.DataAccess.Model
 {
     public class ChildReturnModel
     {

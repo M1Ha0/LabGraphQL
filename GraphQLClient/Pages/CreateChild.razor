@@ -2,19 +2,18 @@
 @using BlazorBootstrap
 @using GraphQLClient.DataAccess
 @using GraphQLClient.DataAccess.Model
-
 @inject NavigationManager NavigationManager
 <h3>Добовление Ребенка</h3>
 <div class="row">
     <EditForm Model="@createChild" OnValidSubmit="@CreateButtonClick">
         <DataAnnotationsValidator />
-        <ValidationSummary />
+        <ValidationSummary/>
         <div class="form-group">
             Имя:<InputText id="name" @bind-Value="createChild.Name"
                            class="form-control" />
         </div>
         <div class="form-group">
-            BirhDate:<InputText id="birhDate" @bind-Value="createChild.BirhDate"
+            Дата рождения:<DateInput id="birhDate" @bind-Value="createChild.BirhDate"
                              class="form-control" />
         </div>
         <div class="form-group">
@@ -22,7 +21,7 @@
                                        class="form-control">
                 @foreach (var par in parentList!)
                 {
-                    <option value="@dept.ParentId">@dept.Name</option>
+                    <option value="@par.ParentId">@par.Name</option>
                 }
             </InputSelect>
         </div>
@@ -46,23 +45,23 @@
     {
         try
         {
-            string query = "mutation{createWithDepartmentId(age:" + createEmployee.Age + ",mail: \"" + createEmployee.Email + "\",name: \"" + createEmployee.Name + "\",depId:" + createEmployee.DepartmentId + "){name,employeeId,departmentId}}";
-            string graphQLQueryType = "createWithDepartmentId";
-            var result = await Mutation.ExceuteMutationAsyn<CreateEmployeeReturnModel>(graphQLQueryType, query);
-            NavigationManager.NavigateTo($"EmployeeView");
+            string query = "mutation{createWithParentName(name:" + createChild.Name + ",birhDate: \"" + createChild.BirhDate + "\",parentId:" + createChild.ParentId + "){name,parentId}}";
+            string graphQLQueryType = "createWithParentName";
+            var result = await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
+            NavigationManager.NavigateTo($"ChildView");
         }
         catch (Exception)
         {
             throw;
         }
     }
-    private async Task<IEnumerable<DepartmentReturnModel>> GetDepartments()
+    private async Task<IEnumerable<ParentReturnModel>> GetParents()
     {
         try
         {
-            string query = "query{allDepartmentOnly{departmentId,name}}";
-            string graphQLQueryType = "allDepartmentOnly";
-            return await Query.ExceuteQueryReturnListAsyn<DepartmentReturnModel>(graphQLQueryType, query);
+            string query = "query{allParentOnly{parentId,name}}";
+            string graphQLQueryType = "allParentOnly";
+            return await Query.ExceuteQueryReturnListAsyn<ParentReturnModel>(graphQLQueryType, query);
         }
         catch (Exception)
         {

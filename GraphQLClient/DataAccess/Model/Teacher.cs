@@ -1,23 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace GraphQLClient.DataAccsess.Model
+namespace GraphQLClient.DataAccess.Model
 {
-    public class Parent
+    public class Teacher
     {
-        public int ParentId { get; set; }
+        public int TeacherId { get; set; }
         public string? Name { get; set; }
         public string? SurName { get; set; }
         public string LastName { get; set; }
+        public string? Specialty { get; set; }
         public string? Phone { get; set; }
-        public ICollection<Child> Childs { get; set; }
-        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Service> Services { get; set; }
         public override string ToString()
         {
-            return $"ParentId: {ParentId},\n" +
+            return $"TeacherId: {TeacherId},\n" +
                    $"Name: {Name},\n" +
                    $"SurName: {SurName},\n" +
                    $"LastName: {LastName},\n" +
+                   $"Specialty: {Specialty},\n" +
                    $"Phone: {Phone},\n";
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace GraphQLClient.DataAccsess.Model
+namespace GraphQLClient.DataAccess.Model
 {
     public class Child
     {

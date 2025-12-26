@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GraphQLClient.DataAccsess.Model
+namespace GraphQLClient.DataAccess.Model
 {
-    public class CreateChildtModel
+    public class CreateChildModel
     {
         [Required(ErrorMessage = "Name is required")]
         public string? Name { get; set; }

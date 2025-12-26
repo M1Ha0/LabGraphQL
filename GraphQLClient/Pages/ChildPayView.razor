@@ -1,0 +1,29 @@
+﻿@page "/ChildPayView/{Id:int}"
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+
+@inject NavigationManager NavigationManager
+<h3>Задолжености</h3>
+<div>
+    <div class="form-group">
+        Задолжености:<InputText readonly id="pay" Value="pay"
+                       class="form-control" />
+    </div>
+</div>
+<a href="/ChildView">Назад</a>
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    private decimal pay;
+    protected override async Task OnInitializedAsync()
+    {
+        string completeQuery = "query{getChildDebt(id:" + Id+ ")";
+        string qraphQLQueryType = "getChildDebt";
+        var result = await Query.ExceuteQueryAsyn<decimal>(qraphQLQueryType, completeQuery);
+        if (result == null)
+        {
+            NavigationManager.NavigateTo($"ChildView");
+        }
+        pay = result!;
+    }
+}

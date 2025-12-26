@@ -1,0 +1,68 @@
+﻿@page "/DeleteChild/{Id:int}"
+@using GraphQLClient.DataAccess
+@using GraphQLClient.DataAccess.Model
+
+@inject NavigationManager NavigationManager
+<h3>Удаление ребенка</h3>
+@if(child.Name==null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>@child.Name</h2>
+
+    <div>
+        <div>
+            Дата рождения:<span style="font-size:large">@child.BirhDate</span>
+            <br />
+        </div>
+        <div>
+            Родитель: <span style="font-size:large">@child.Parent.Name</span>
+            <br />
+        </div>
+        <div>
+            <span class="alert-danger">Вы действительно удалить @child.Name?</span>
+            <br/>
+        </div>
+        <div>
+            <button class="btn btn-primary" @onclick="Delete">Да</button>
+            <button class="btn btn-secondary" @onclick="Back">Нет</button>
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    private ChildReturnModel child = new ChildReturnModel();
+    protected override async Task OnInitializedAsync()
+    {
+        string completeQuery = "query{childById(id:" + Id + "){childId,name,birhdate,parent{name,parentId}}}";
+        string qraphQLQueryType = "childById";
+        var result = await Query.ExceuteQueryAsyn<ChildReturnModel>(qraphQLQueryType, completeQuery);
+        if (result == null)
+        {
+            NavigationManager.NavigateTo($"ChildView");
+        }
+        child = result!;
+        child.ParentId = result!.Parent.ParentId;
+    }
+    private void Back()
+    {
+        NavigationManager.NavigateTo($"ChildView");
+    }
+    private async Task Delete()
+    {
+        try
+        {
+            string query = "mutation{deleteChild(id:" + Id + "){name}}";
+            string graphQLQueryType = "deleteChild";
+            await Mutation.ExceuteMutationAsyn<CreateChildModel>(graphQLQueryType, query);
+            NavigationManager.NavigateTo($"ChildView");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}
